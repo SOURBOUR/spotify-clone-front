@@ -1,0 +1,22 @@
+<div class="flex-column d-flex align-items-center">
+
+    <div class="w-75">
+        <h1 class="mb-3 text-start">Add a Song</h1>
+
+        <form id="createForm" (ngSubmit)="create()" [formGroup]="createForm">
+            <div class="form-floating mb-3 text-secondary">
+                <input type="text" class="form-control" id="title"
+                [class.is-valid]="createForm.get('title')?.valid"
+                [class.is-invalid]="createForm.get('title')?.dirty && createForm.get('title')?.invalid"
+                placeholder="Tite" formControlName="title"/>
+                <label for="title">Title</label>
+                @if (createForm.get('title')?.dirty && createForm.get('title')?.hasError('required')) {
+                    <div class="invalid-feedback">
+                        Title is required
+                    </div>
+                }
+            </div>
+        </form>
+    </div>
+
+</div>

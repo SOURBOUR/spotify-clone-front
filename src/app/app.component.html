@@ -1,11 +1,11 @@
 <div class="position-absolute z-2 mt-3 toast-container">
   @for (toast of toastService.toasts; track toast) {
     <ngb-toast
-    [class]="toast.className"
-    [autohide]="true"
-    [delay]="1000"
-    (hidden)="toastService.remove(toast)">
-    {{ toast.body }}
+      [class]="toast.className"
+      [autohide]="true"
+      [delay]="1000"
+      (hidden)="toastService.remove(toast)">
+      {{ toast.body }}
     </ngb-toast>
   }
 </div>
@@ -22,4 +22,4 @@
       </div>
     </div>
   </div>
-</div>
+  </div>

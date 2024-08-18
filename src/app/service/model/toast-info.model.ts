@@ -1,4 +1,4 @@
 export interface ToastInfo {
-    body: string;
-    className: string;
+  body: string;
+  className: string;
 }
