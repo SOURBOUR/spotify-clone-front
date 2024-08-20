@@ -14,7 +14,8 @@ export class SongContentService {
   private queueToPlay$: WritableSignal<Array<ReadSong>> = signal([]);
   queueToPlay = computed(() => this.queueToPlay$());
 
-  private play$: WritableSignal<State<SongContent, HttpErrorResponse>> = signal(State.Builder<SongContent, HttpErrorResponse>().forInit().build());
+  private play$: WritableSignal<State<SongContent, HttpErrorResponse>> = 
+    signal(State.Builder<SongContent, HttpErrorResponse>().forInit().build());
   playNewSong = computed(() => this.play$());
 
   createNewQueue(firstSong: ReadSong, songsToPlay: Array<ReadSong>): void {
@@ -25,21 +26,25 @@ export class SongContentService {
     this.queueToPlay$.set(songsToPlay);
   }
 
-  // fetchNextSong(songToPlay: SongContent): void {
-  //   const queryParam = new HttpParams().set('publicId', songToPlay.publicId!);
-  //   this.http.get<SongContent>(`${environment.API_URL}/api/songs/get-content`, {params: queryParam})
-  //   .subscribe({
-  //     next: songContent => {
-  //       this.mapReadSongToSongContent(songContent, songToPlay);
-  //       this.play$.set(State.Builder<SongContent, HttpErrorResponse>().forSuccess(songContent).build())
-  //     },
-  //     error: err => this.play$.set(State.Builder<SongContent, HttpErrorResponse>().forSuccess(err).build())
-  //   })
-  // }
+  fetchNextSong(songToPlay: SongContent): void {
+    const queryParam = new HttpParams().set('publicId', songToPlay.publicId!);
+    this.http.get<SongContent>(`${environment.API_URL}/api/songs/get-content`, {params: queryParam})
+    .subscribe({
+      next: songContent => {
+        this.mapReadSongToSongContent(songContent, songToPlay);
+        this.play$.set(State.Builder<SongContent, HttpErrorResponse>().forSuccess(songContent).build())
+      },
+      error: err => this.play$.set(State.Builder<SongContent, HttpErrorResponse>().forSuccess(err).build())
+    })
+  }
 
-  // private mapReadSongToSongContent(songContent: SongContent, songToPlay: ReadSong){
-  //   songContent.cover = 
-  // }
+  private mapReadSongToSongContent(songContent: SongContent, songToPlay: ReadSong){
+    songContent.cover = songToPlay.cover;
+    songContent.coverContentType = songToPlay.coverContentType;
+    songContent.title = songToPlay.title;
+    songContent.author = songToPlay.author;
+    songContent.favorite = songToPlay.favorite;
+  }
 
   constructor() { }
 }
